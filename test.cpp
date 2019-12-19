@@ -69,11 +69,15 @@ class Map{
               tile.x = x;
               tile.y = y;
               int dice = rand()%100;
-              if(dice%2 == 0){
+              if (i > 1000 || j > 6){
+                if(dice%2 == 0){
                 tile.sprite = sprites.grass;
-              }
-              else{
+                }
+                else{
                 tile.sprite = sprites.rock;
+                }
+              }else{
+                tile.sprite = NULL;
               }
 
               chunk.tiles.push_back(tile);
@@ -130,6 +134,14 @@ int main( int agrc, char *agrv[])
   play = IMG_Load("player.png");
   plays = SDL_CreateTextureFromSurface(renderer, play);
   SDL_FreeSurface(play);
+  SDL_Surface *back = NULL;
+  SDL_Texture *background = NULL;
+  back = IMG_Load("back.png");
+  background = SDL_CreateTextureFromSurface(renderer, back);
+  SDL_FreeSurface(back);
+  int movex = 0;
+  int movey = 0;
+  SDL_Rect player_rect = {WIDTH/2, HEIGHT/2, 32, 32};
   while (true)
     {
       if (SDL_PollEvent( &windowEvent))
@@ -143,24 +155,41 @@ int main( int agrc, char *agrv[])
             player.posx = player.posx + 1;
           }
         }
+      movey = 2;
+      movex = 0;
       SDL_RenderClear(renderer);
+      SDL_RenderCopy(renderer, background, NULL, NULL);
       map.Check_Chunk(player, sprites);
       for (Chunk chunk : map.loadedchunks){
           for (Tile tile : chunk.tiles){
             SDL_Rect rect_chunk = {tile.x*16+chunk.x*TILE_AMOUNT_X*TILE_WIDTH - player.posx*TILE_WIDTH - TILE_WIDTH - WIDTH/2, tile.y*16+chunk.y*TILE_AMOUNT_Y*TILE_HEIGHT - player.posy*TILE_HEIGHT - TILE_HEIGHT - HEIGHT/2, 16, 16};
             SDL_Rect rect_chunks = {0, 0, 16, 16};
             SDL_RenderCopy(renderer, tile.sprite, &rect_chunks, &rect_chunk);
+            if (rect_chunk.y <= player_rect.y + player_rect.h + 2 * movey && tile.sprite != NULL)
+            {
+              movex = 0;
+              movey = 0;
+            }
           }
       }
-      SDL_Rect rect_chunk = {WIDTH/2, HEIGHT/2, 16, 16};
       SDL_Rect rect_chunks = {0, 0, 32, 32};
-      SDL_RenderCopy(renderer, plays, &rect_chunks, &rect_chunk);
+      SDL_RenderCopy(renderer, plays, &rect_chunks, &player_rect);
       SDL_RenderPresent(renderer);
-      player.posx = player.posx + 1;
-      std::cout << player.posx << std::endl;
+      player.posy = player.posy + movey;
+      player.posx = player.posx + movex;
     }
   SDL_DestroyWindow(window);
   SDL_DestroyRenderer(renderer);
   SDL_Quit();
   return EXIT_SUCCESS;
 }
+
+//for (int i = 0; i < 100; i++){
+  //              if (!(game->tree[i].collx+game->tree[i].collw <
+                        //game->man.collx + game->man.movex|| game->tree[i].collx >
+                        //game->man.collx+game->man.movex + game->man.collw || game->tree[i].y >
+                        //game->man.colly+game->man.movey + game->man.collh || game->tree[i].y + game->tree[i].h <
+                        //game->man.colly+game->man.movey) && game->tree[i].life == 'y' && game->man.life == 'y'){
+           // game->man.movey = 0;
+      //      game->man.movex = 0;
+        //}

@@ -1,6 +1,5 @@
 #include "Map.h"
-
-
+#include "Game.h"
 
 	Map::Map(SDL_Renderer* ren)
 	{
@@ -13,6 +12,7 @@
 	}
 
 	void Map::Check_Chunk(Player* player, Sprites* sprites) {
+
 		int player_chunk_x = player->posx / TILE_AMOUNT_X;
 		int player_chunk_y = player->posy / TILE_AMOUNT_Y;
 		Unload_Chunk(player_chunk_x, player_chunk_y);
@@ -51,7 +51,7 @@
 									tile.sprite = sprites->grass;
 								}
 								else {
-									tile.sprite = sprites->rock;
+									tile.sprite = sprites->stone;
 								}
 							}
 							else {
@@ -69,19 +69,16 @@
 
 
 
-	void Map::Render(Player* player, Sprites* sprites) 
+	void Map::Render(Player* player, Sprites* sprites)
 	{
-
 		Check_Chunk(player, sprites);
 		for (Chunk chunk : loadedchunks) {
 			for (Tile tile : chunk.tiles) {
 				SDL_Rect rect_chunk = { tile.x * 16 + chunk.x*TILE_AMOUNT_X*TILE_WIDTH - player->posx*TILE_WIDTH - TILE_WIDTH - WIDTH / 2, tile.y * 16 + chunk.y*TILE_AMOUNT_Y*TILE_HEIGHT - player->posy*TILE_HEIGHT - TILE_HEIGHT - HEIGHT / 2, 16, 16 };
 				SDL_Rect rect_chunks = { 0, 0, 16, 16 };
 				SDL_RenderCopy(renderer, tile.sprite, &rect_chunks, &rect_chunk);
-				
+
 			}
 		}
-
-
 	}
 

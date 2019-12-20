@@ -1,19 +1,14 @@
 #include "Game.h"
 #include "TexturesManger.h"
 #include "Map.h"
-//#include "TextureManager.h"
-//#include "GameObject.h"
-
-
-//GameObject* Player;
-//GameObject* Enemy;
-//GameObject* Drow;
+#include "Sprites.h"
+#include "Player.h"
 
 SDL_Texture *plays;
 SDL_Texture *background;
-Sprites* sprites;
-Player* player;
-Map* map;
+Sprites *sprites;
+Player *player;
+Map *map;
 
 
 Game::Game() {
@@ -51,19 +46,14 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
 	}
 
 	TextureManager Texture;
-
-	Sprites sprites;
-	sprites.grass = Texture.LoadTexture("grass.png", renderer);
-	sprites.rock = Texture.LoadTexture("rock.png", renderer);
-	
-
+	player = new Player(WIDTH/2, HEIGHT/2, 32, 32, Texture.LoadTexture("player.png", renderer), renderer);
+	sprites = new Sprites();
+	sprites->grass = Texture.LoadTexture("grass.png", renderer);
+	sprites->stone = Texture.LoadTexture("rock.png", renderer);
 	plays = Texture.LoadTexture("player.png", renderer);
-
-
-	
 	background = Texture.LoadTexture("back.png", renderer);
 
-	
+
 
 	map = new Map(renderer);
 }
@@ -95,9 +85,9 @@ void Game::render() {
 	std::cout << "Rendered";
 	SDL_RenderClear(renderer);
 	SDL_RenderCopy(renderer, background, NULL, NULL);
-	std::cout << "Render" << std::endl;
-	
+
 	map->Render(player, sprites);
+
 	SDL_Rect player_rect = { WIDTH / 2, HEIGHT / 2, 32, 32 };
 	SDL_Rect rect_chunks = { 0, 0, 32, 32 };
 	SDL_RenderCopy(renderer, plays, &rect_chunks, &player_rect);

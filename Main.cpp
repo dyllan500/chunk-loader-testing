@@ -1,28 +1,14 @@
 #include "Game.h"
 #include "Map.h"
 #include "TexturesManger.h"
+#include "Sprites.h"
+#include "Player.h"
 
 
 
 int main(int agrc, char *agrv[])
 {
 	Game *game;
-	
-
-
-	Player player;
-	player.x = WIDTH / 2;
-	player.y = HEIGHT / 2;
-	player.h = 16;
-	player.w = 16;
-	player.posx = player.x;
-	player.posy = player.y;
-	player.posh = player.h;
-	player.posw = player.w;
-
-
-
-
 	const int FPS = 60;
 	const int frameDelay = 1000 / FPS;
 
@@ -36,7 +22,7 @@ int main(int agrc, char *agrv[])
 	while (game->running())
 	{
 		frameStart = SDL_GetTicks();
-		
+
 		game->handleEvents();
 		game->update();
 		game->render();

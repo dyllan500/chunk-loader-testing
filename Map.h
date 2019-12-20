@@ -1,6 +1,7 @@
 #pragma once
 #include "Game.h"
-
+#include "Sprites.h"
+#include "Player.h"
 
 class Map {
 
@@ -13,10 +14,10 @@ public:
 	std::vector<Chunk> loadedchunks;
 
 	void Check_Chunk(Player* player, Sprites* sprites);
-	
+
 
 	void Unload_Chunk(int player_chunk_x, int player_chunk_y);
-	
+
 
 	void Load_Chunk(int player_chunk_x, int player_chunk_y, Sprites* sprites);
 

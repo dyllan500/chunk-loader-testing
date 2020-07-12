@@ -1,0 +1,15 @@
+tree colors
+light   #896349
+dark    #77543b
+darkest #5c3926
+
+leaves
+light   #74a81c
+dark    #577a1d
+darker  #456215
+darkest #335100
+
+dirt
+light   #7f5321
+dark    #784e1e
+darkest #573711

@@ -2,6 +2,7 @@
 
   Items::Items()
 	{
-		SDL_Texture *stone_pickax;
+		SDL_Texture *pickax;
+		SDL_Texture *ax;
 	}
 

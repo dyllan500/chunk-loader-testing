@@ -23,7 +23,7 @@ Tiles *tiles;
 Items *items;
 Player *player;
 Map *map;
-bool KEYS[MAX_KEYS];
+Uint8 KEYS[MAX_KEYS];
 bool picking;
 bool placing;
 int last_tic;
@@ -60,7 +60,7 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
   }
 
   for(int i = 0; i < MAX_KEYS; i++) {
-    KEYS[i] = false;
+    KEYS[i] = BUTTON_NONE;
   }
   //SDL_EnableKeyRepeat(0,0);
   angle = 0;
@@ -101,6 +101,7 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
 	tree_top_ui = Texture.LoadTexture("tree_top.png", renderer);
 
 	items->pickax = Texture.LoadTexture("pickaxe.png", renderer);
+	items->ax = Texture.LoadTexture("ax.png", renderer);
 
   player->posx = 10;
   player->posy = -10;
@@ -131,10 +132,10 @@ void Game::handleEvents(SDL_Event* event) {
 		isRunning = false;
 		break;
   case SDL_KEYDOWN:
-    KEYS[event->key.keysym.sym] = true;
+    KEYS[event->key.keysym.sym] = BUTTON_DOWN;
     break;
   case SDL_KEYUP:
-    KEYS[event->key.keysym.sym] = false;
+    KEYS[event->key.keysym.sym] = BUTTON_UP;
     break;
   case SDL_MOUSEBUTTONDOWN:
     if(event->button.button == SDL_BUTTON_RIGHT){
@@ -161,22 +162,26 @@ void Game::handleEvents(SDL_Event* event) {
 }
 
 void Game::handleKeys() {
-    if(KEYS[SDLK_s]) {
+    if(KEYS[SDLK_s] == BUTTON_DOWN) {
       if(!map->Check_Collision('s', player->posx, player->posy, tiles)) {
         player->posy = player->posy + 1;
       }
     }
-    if(KEYS[SDLK_w]) {
+    if (KEYS[SDLK_s] == BUTTON_UP)
+    {
+        KEYS[SDLK_s] = BUTTON_NONE;
+    }
+    if(KEYS[SDLK_w] == BUTTON_DOWN) {
         if(!map->Check_Collision('n', player->posx, player->posy, tiles)) {
             player->posy = player->posy - 1;
         }
     }
-    if(KEYS[SDLK_d]) {
+    if(KEYS[SDLK_d] == BUTTON_DOWN) {
         if(!map->Check_Collision('e', player->posx, player->posy, tiles)) {
             player->posx = player->posx + 1;
        }
     }
-    if(KEYS[SDLK_a]) {
+    if(KEYS[SDLK_a] == BUTTON_DOWN) {
         if(!map->Check_Collision('w', player->posx, player->posy, tiles)) {
             player->posx = player->posx - 1;
         }
@@ -184,7 +189,7 @@ void Game::handleKeys() {
     if(KEYS[SDLK_ESCAPE]) {
         isRunning = false;
     }
-    if(KEYS[SDLK_SPACE]){
+    if(KEYS[SDLK_SPACE] == BUTTON_DOWN){
       if(!map->Check_Collision('n', player->posx, player->posy, tiles)) {
             player->posy = player->posy - 2;
         }

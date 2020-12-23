@@ -11,6 +11,9 @@ const int WIDTH = 1080, HEIGHT = 720, TILE_AMOUNT_X = 10, TILE_AMOUNT_Y = 10, CH
 const int CHUNK_SIZE_X = 840, CHUNK_SIZE_Y = 240; //840 240
 const int PLAYER_WIDTH = 32, PLAYER_HEIGHT = 48;
 const float PIXEL_SIZE = 1.0;
+#define BUTTON_NONE 0
+#define BUTTON_DOWN 1
+#define BUTTON_UP 2
 
 typedef struct {
 	int x, y;
@@ -30,6 +33,7 @@ typedef struct {
   int16_t y;
   bool collision;
   int16_t type;
+  int16_t item;
 } Tile_ID;
 
 typedef struct {
@@ -58,13 +62,15 @@ enum ITEMS {
   Dirt_block = Uint16(1),
   Stone_block = Uint16(2),
   Wood_block = Uint16(3),
-  Stone_Pickax = Uint16(4)
+  Stone_Pickax = Uint16(4),
+  Stone_Ax = Uint16(5)
   };
 
 class Game {
 
 	double cnt = 0;
 	bool isRunning;
+	int mouse_x, mouse_y;
 	SDL_Window *window;
 	SDL_Renderer *renderer;
 

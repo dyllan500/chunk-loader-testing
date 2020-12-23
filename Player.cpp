@@ -8,8 +8,8 @@
 		int y = player_y;
 		int h = player_h;
 		int w = player_w;
-		int posx = player_x;
-		int posy = player_y;
+		double posx = player_x;
+		double posy = player_y;
     SDL_Texture *sprite = tiles;
     SDL_Renderer *renderer = ren;
     std::vector<Inventory> intventory;

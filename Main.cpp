@@ -36,19 +36,17 @@ int main(int agrc, char *agrv[])
 
 
 	Game *game;
-	const int FPS = 244;
+	const int FPS = 60;
 	const int frameDelay = 1000 / FPS;
-
 	Uint32 frameStart;
 	int frameTime;
-
 	game = new Game();
 	game->init("Game Test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, false);
 	while (game->running())
 	{
 	  SDL_Event event;
 		frameStart = SDL_GetTicks();
-		while(SDL_PollEvent(&event) != 0)
+		while(SDL_PollEvent(&event))
     {
       game->handleEvents(&event);
     }
@@ -60,7 +58,6 @@ int main(int agrc, char *agrv[])
 			SDL_Delay(frameDelay - frameTime);
 		}
 	}
-
 	game->clean();
 	return EXIT_SUCCESS;
 }

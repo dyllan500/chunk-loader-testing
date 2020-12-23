@@ -11,7 +11,8 @@ private:
 public:
   Player(int player_x, int player_y, int player_h, int player_w, SDL_Texture *tiles, SDL_Renderer *renderer);
   std::vector<Inventory> intventory;
-  int x,y,h,w,posx,posy;
+  int x,y,h,w;
+  int posx,posy;
   int selected;
   SDL_Texture *sprite;
   void Render();
